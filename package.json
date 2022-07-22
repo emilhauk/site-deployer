@@ -1,0 +1,30 @@
+{
+  "name": "site-deployer",
+  "version": "1.0.0",
+  "description": "Deploys sites to docker",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "default": "./index.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emilhauk/site-deployer.git"
+  },
+  "author": "Emil Haukeland <emil.haukeland@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emilhauk/site-deployer/issues"
+  },
+  "homepage": "https://github.com/emilhauk/site-deployer#readme",
+  "dependencies": {
+    "convict": "^6.2.3",
+    "express": "^4.18.1",
+    "node-fetch": "^3.2.8"
+  }
+}
