@@ -4,10 +4,12 @@ import config from "./config.js";
 const DOCKER_VERSION = 'v1.41';
 const DOCKER_API_URL = `${config.get('dockerUrl')}/${DOCKER_VERSION}`
 
-export const createImage = (fromImage) =>
-    fetch(`${DOCKER_API_URL}/images/create?fromSrc=${fromImage}`, {
+export const createImage = (fromImage) => {
+    console.log('Creating image', {url: `${DOCKER_API_URL}/images/create?fromSrc=${fromImage}`})
+    return fetch(`${DOCKER_API_URL}/images/create?fromSrc=${fromImage}`, {
         method: 'POST',
     })
+}
 
 /**
  * @param {string} domain
@@ -49,7 +51,8 @@ export const remove = (containerId) =>
  * @param config
  * @returns {Promise<{Id: string, Warnings: Array<string>}>}
  */
-export const create = (config) =>
+export const create = async (config) => {
+    console.log('Creating container', {url: `${DOCKER_API_URL}/containers/create`, config})
     fetch(`${DOCKER_API_URL}/containers/create`, {
         method: 'POST',
         headers: {
@@ -61,15 +64,19 @@ export const create = (config) =>
             console.log(res.status, await res.text())
             throw new Error("Failed to create container")
         }
-        return res.json()
+        const json = await res.json();
+        console.log('Create success', json)
+        return json;
     });
+}
 
 /**
  * @param {string} containerId
  * @returns Promise<string>
  */
-export const start = (containerId) =>
-    fetch(`${DOCKER_API_URL}/containers/${containerId}/start`, {
+export const start = (containerId) => {
+    console.log('Starting container', {containerId})
+    return fetch(`${DOCKER_API_URL}/containers/${containerId}/start`, {
         method: 'POST',
     })
         .then(async ( res) => {
@@ -79,6 +86,7 @@ export const start = (containerId) =>
             }
             return containerId
         });
+}
 
 export default {
     createImage,

@@ -66,9 +66,10 @@ app.post('/', json(),
             const runningContainers = await docker.findRunning(domain)
             await new Promise((resolve) => {
                 setTimeout(() => {
+                    console.log("Timeout resolved")
                     resolve(docker.createImage(image));
                 }, 5000)
-            })
+            });
             await docker.createContainer({
                 Image: image,
                 Labels: {
@@ -80,6 +81,7 @@ app.post('/', json(),
                     return docker.start(container.Id)})
                 .then(() => {
                     setTimeout(() => {
+                        console.log('Stopping container after delay', runningContainers.map(c => c.Id))
                         runningContainers
                             .forEach(container => docker.stop(container.Id).then(docker.remove));
                     }, 10000)
