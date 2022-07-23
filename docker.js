@@ -8,6 +8,19 @@ export const createImage = (fromImage) => {
     console.log('Creating image', {url: `${DOCKER_API_URL}/images/create?fromSrc=${fromImage}`})
     return fetch(`${DOCKER_API_URL}/images/create?fromSrc=${fromImage}`, {
         method: 'POST',
+    }).then(async res => {
+        let json;
+        try {
+            json = await res.json()
+        } catch (e) {
+            console.log("no json", e)
+        }
+        if(!res.ok) {
+            console.log('failed to create image', json)
+            return Promise.reject(new Error('failed to create image'))
+        }
+        console.log('image created', json)
+        return json;
     })
 }
 
