@@ -53,7 +53,7 @@ export const remove = (containerId) =>
  */
 export const create = async (config) => {
     console.log('Creating container', {url: `${DOCKER_API_URL}/containers/create`, config})
-    fetch(`${DOCKER_API_URL}/containers/create`, {
+    return fetch(`${DOCKER_API_URL}/containers/create`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
